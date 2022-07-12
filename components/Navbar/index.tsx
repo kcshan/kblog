@@ -23,7 +23,7 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.navbar}>
-      <section className={styles.logoArea}>BLOG-C</section>
+      <section className={styles.logoArea}>JESSEKONG-BLOG</section>
       <section className={styles.linkArea}>
         {navs?.map((nav) => (
           <Link key={nav?.label} href={nav?.value}>
@@ -34,9 +34,9 @@ const Home: NextPage = () => {
         ))}
       </section>
       <section className={styles.operationArea}>
-        <Button onClick={handleGotoEditorPage}>写文章</Button>
+        <Button onClick={handleGotoEditorPage}>Article</Button>
         <Button type="primary" onClick={handleLogin}>
-          登录
+          Login
         </Button>
       </section>
       <Login isShow={isShowLogin} onClose={handleClose} />

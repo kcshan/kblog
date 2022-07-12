@@ -1,14 +1,14 @@
 export const navs = [
   {
-    label: '首页',
+    label: 'Home',
     value: '/',
   },
   {
-    label: '咨询',
+    label: 'Consult',
     value: '/info',
   },
   {
-    label: '标签',
+    label: 'Tag',
     value: '/tag',
   },
 ];

@@ -1,5 +1,8 @@
 // import type { NextPage } from 'next';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+import { message } from 'antd';
+import request from 'service/fetch';
+import CountDown from 'components/CountDown';
 import styles from './index.module.scss';
 
 interface IProps {
@@ -10,6 +13,7 @@ interface IProps {
 const Login = (props: IProps) => {
   console.log(props);
   const { isShow = false } = props;
+  const [isShowVerifyCode, setIsShowVerifyCode] = useState(false);
   const [form, setForm] = useState({
     phone: '',
     verify: '',
@@ -17,43 +21,73 @@ const Login = (props: IProps) => {
 
   const handleClose = () => {};
 
-  const handleGetVerifyCode = () => {};
+  const handleGetVerifyCode = () => {
+    // setIsShowVerifyCode(true);
+    if (!form?.phone) {
+      message.warning('请输入手机号');
+      return;
+    }
+
+    request.post('/api/user/sendVerifyCode');
+  };
 
   const handleLogin = () => {};
 
   const handleOAuthGithub = () => {};
+
+  const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const handleCountDownEnd = () => {
+    console.log('结束了');
+    setIsShowVerifyCode(false);
+  };
 
   console.log(setForm);
 
   return isShow ? (
     <div className={styles.loginArea}>
       <div className={styles.loginBox}>
-        <div>手机号登录</div>
-        <div className={styles.close} onClick={handleClose}>
-          x
+        <div className={styles.loginTitle}>
+          <div>Phone Number Login</div>
+          <div className={styles.close} onClick={handleClose}>
+            x
+          </div>
         </div>
+
         <input
           name="phone"
           type="text"
-          placeholder="请输入手机号"
+          placeholder="phone number"
           value={form.phone}
+          onChange={handleFormChange}
         />
         <div className={styles.verifyCodeArea}>
           <input
-            name="phone"
+            name="verify"
             type="text"
-            placeholder="请输入验证码"
+            placeholder="verify code"
             value={form.verify}
+            onChange={handleFormChange}
           />
           <span className={styles.verifyCode} onClick={handleGetVerifyCode}>
-            获取验证码
+            {isShowVerifyCode ? (
+              <CountDown time={5} onEnd={handleCountDownEnd} />
+            ) : (
+              'Get Verify Code'
+            )}
           </span>
         </div>
         <div className={styles.loginBtn} onClick={handleLogin}>
-          登录
+          Login
         </div>
         <div className={styles.otherLogin} onClick={handleOAuthGithub}>
-          使用 Github 登录
+          Github Login
         </div>
         {/* <div className={styles.loginPrivacy}>
           注册登录即表示同意<a href="javascript:void;"></a>
